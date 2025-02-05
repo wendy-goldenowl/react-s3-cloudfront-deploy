@@ -4,3 +4,8 @@ coverage
 build
 .idea/
 .eslintcache
+
+# Terraform
+/terraform/.terraform/
+/terraform/terraform.tfstate.backup
+/terraform/terraform.tfstate
