@@ -1,5 +1,6 @@
 resource "aws_s3_bucket" "spa_app_bucket" {
   bucket = var.bucket_name
+  force_destroy = var.aws_s3_force_destroy
 }
 
 resource "aws_s3_bucket_website_configuration" "spa_bucket_website" {

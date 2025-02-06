@@ -11,6 +11,7 @@ module "s3" {
   source = "./modules/s3"
   bucket_name = var.bucket_name
   aws_cloudfront_oai = module.cloudfront.aws_cloudfront_oai
+  aws_s3_force_destroy = var.aws_s3_force_destroy
 }
 
 module "cloudfront" {
