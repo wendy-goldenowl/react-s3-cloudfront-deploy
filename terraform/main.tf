@@ -10,8 +10,16 @@ terraform {
 module "s3" {
   source = "./modules/s3"
   bucket_name = var.bucket_name
-  aws_cloudfront_oai = module.cloudfront.aws_cloudfront_oai
   aws_s3_force_destroy = var.aws_s3_force_destroy
+  policies = [
+      {
+        sid       = "PublicReadGetObject"
+        effect    = "Allow"
+        principal = module.cloudfront.aws_cloudfront_oai
+        actions   = ["s3:GetObject"]
+        resource  = "${module.s3.aws_s3_bucket_arn}/*"
+      }
+  ]
 }
 
 module "cloudfront" {
