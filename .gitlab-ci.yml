@@ -30,7 +30,7 @@ build:
 deploy s3:
     stage: deploy
     image:
-        name: aws/aws-cli:latest
+        name: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
         entrypoint:
           - '/usr/bin/env'
     id_tokens:
