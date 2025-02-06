@@ -25,7 +25,7 @@ build:
         paths:
         - build/
     only:
-      - feat/cicd
+      - main
 
 deploy s3:
     stage: deploy
@@ -40,4 +40,4 @@ deploy s3:
         - *assume_role
         - aws s3 sync build/ s3://$S3_BUCKET_NAME --delete
     only:
-      - feat/cicd
+      - main
