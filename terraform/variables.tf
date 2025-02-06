@@ -1,11 +1,6 @@
 variable "aws_region" {
   description = "The AWS region to deploy to"
-  default     = "us-est-1"
-}
-
-variable "aws_profie" {
-  description = "The AWS profile to use"
-  default     = "default"
+  default     = "us-east-1"
 }
 
 variable "environment" {
@@ -15,5 +10,5 @@ variable "environment" {
 
 variable "bucket_name" {
   description = "The name of the S3 bucket to create"
-  default     = "spa_bucket"
+  default     = "spa-bucket-wendy"
 }
