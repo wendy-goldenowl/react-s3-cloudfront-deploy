@@ -29,7 +29,13 @@ build:
 
 deploy s3:
     stage: deploy
-    image: aws/aws-cli:latest
+    image:
+        name: aws/aws-cli:latest
+        entrypoint:
+          - '/usr/bin/env'
+    id_tokens:
+      ID_TOKEN:
+        aud: our-identity-provider
     script:
         - *assume_role
         - aws s3 sync build/ s3://$S3_BUCKET_NAME --delete
