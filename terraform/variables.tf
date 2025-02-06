@@ -12,3 +12,8 @@ variable "bucket_name" {
   description = "The name of the S3 bucket to create"
   default     = "spa-bucket-wendy"
 }
+
+variable "custom_error_responses" {
+  description = "Custom error responses for the CloudFront distribution"
+  default     = []
+}
