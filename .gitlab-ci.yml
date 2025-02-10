@@ -1,7 +1,7 @@
 stages:
   - build
+  - test
   - deploy staging
-  - approve production
   - deploy production
 
 .assume_role: &assume_role
@@ -34,6 +34,19 @@ build:
         - node_modules/
         - build/
 
+test:
+    stage: test
+    image: node:alpine
+    before_script:
+        - npm install
+    script:
+        - npm run test
+    artifacts:
+      untracked: true
+    only:
+      - develop
+      - main
+
 deploy staging:
     stage: deploy staging
     image:
@@ -54,13 +67,6 @@ deploy staging:
         url: $CLOUDFRONT_DOMAIN
     only:
       - develop
-
-approve production:
-    stage: approve production
-    script: echo "Waiting for manual approval..."
-    when: manual
-    only:
-      - main
 
 deploy production:
     stage: deploy production
