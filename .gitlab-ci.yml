@@ -57,7 +57,7 @@ deploy staging:
         - build
     id_tokens:
       ID_TOKEN:
-        aud: our-identity-provider
+        aud: wendy-identity-provider
     script:
         - *assume_role
         - aws s3 sync build/ s3://stag-$S3_BUCKET_NAME --delete
