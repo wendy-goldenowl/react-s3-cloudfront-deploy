@@ -1,11 +1,11 @@
 resource "aws_cloudfront_origin_access_identity" "oai" {
-  comment = "OAI for ${var.aws_bucket_name}"
+  comment = "OAI for ${terraform.workspace}-${var.aws_bucket_name}"
 }
 
 resource "aws_cloudfront_distribution" "spa_distribution" {
   origin {
     domain_name = var.aws_s3_bucket_regional_domain_name
-    origin_id   = "S3-${var.aws_bucket_name}-Origin"
+    origin_id   = "S3-${terraform.workspace}-${var.aws_bucket_name}-Origin"
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.oai.cloudfront_access_identity_path
     }
@@ -15,7 +15,7 @@ resource "aws_cloudfront_distribution" "spa_distribution" {
   default_root_object = "index.html"
 
   default_cache_behavior {
-    target_origin_id = "S3-${var.aws_bucket_name}-Origin"
+    target_origin_id = "S3-${terraform.workspace}-${var.aws_bucket_name}-Origin"
 
     viewer_protocol_policy = "redirect-to-https"
     allowed_methods        = ["GET", "HEAD", "OPTIONS"]

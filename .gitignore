@@ -10,3 +10,4 @@ build
 /terraform/terraform.tfstate.backup
 /terraform/terraform.tfstate
 /terraform/.terraform.tfstate.lock.info
+/terraform/terraform.tfstate.d
