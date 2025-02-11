@@ -33,7 +33,7 @@ test:
 
 deploy production:
   stage: deploy
-  needs: [build]
+  needs: [test, build]
   image:
     name: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
     entrypoint:
