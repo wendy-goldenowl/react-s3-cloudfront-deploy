@@ -1,12 +1,8 @@
 stages:
   - build
   - test
-  - deploy staging
-  - deploy production
+  - deploy
 
 include:
-  - '.gitlab/common.yml'
-  - '.gitlab/build.yml'
-  - '.gitlab/test.yml'
-  - '.gitlab/deploy-stag.yml'
-  - '.gitlab/deploy-prod.yml'
+  - '.gitlab/production.yml'
+  - '.gitlab/staging.yml'
