@@ -42,8 +42,8 @@ deploy production:
       aud: wendy-identity-provider
   extends: .aws_auth
   script:
-    - aws s3 sync build/ s3://prod-$S3_BUCKET_NAME --delete
-    - CLOUDFRONT_DOMAIN=$(aws cloudfront list-distributions --query "DistributionList.Items[?Origins.Items[0].DomainName=='prod-$S3_BUCKET_NAME.s3.amazonaws.com'].DomainName" --output text)
+    - aws s3 sync build/ s3://$S3_BUCKET_NAME --delete
+    - CLOUDFRONT_DOMAIN=$(aws cloudfront list-distributions --query "DistributionList.Items[?Origins.Items[0].DomainName=='$S3_BUCKET_NAME.s3.amazonaws.com'].DomainName" --output text)
   environment:
     name: production
     url: $CLOUDFRONT_DOMAIN
