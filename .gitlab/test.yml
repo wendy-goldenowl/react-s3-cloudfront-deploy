@@ -1,0 +1,12 @@
+test:
+  stage: test
+  image: node:alpine
+  before_script:
+    - npm install
+  script:
+    - npm run test
+  artifacts:
+    untracked: true
+  only:
+    - develop
+    - main
