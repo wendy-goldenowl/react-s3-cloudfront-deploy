@@ -16,6 +16,7 @@ build:
       - build/
   only:
     - main
+    - merge_requests
 
 test:
   stage: test
@@ -28,9 +29,11 @@ test:
     untracked: true
   only:
     - main
+    - merge_requests
 
 deploy production:
   stage: deploy
+  needs: [build]
   image:
     name: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
     entrypoint:
@@ -50,3 +53,4 @@ deploy production:
   when: manual
   only:
     - main
+    - merge_requests

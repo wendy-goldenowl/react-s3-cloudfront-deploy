@@ -16,6 +16,7 @@ build:
       - build/
   only:
     - develop
+    - merge_requests
 
 test:
   stage: test
@@ -28,9 +29,11 @@ test:
     untracked: true
   only:
     - develop
+    - merge_requests
 
 deploy staging:
   stage: deploy
+  needs: [build]
   image:
     name: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
     entrypoint:
@@ -49,3 +52,4 @@ deploy staging:
     url: $CLOUDFRONT_DOMAIN
   only:
     - develop
+    - merge_requests
