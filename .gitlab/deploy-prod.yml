@@ -1,0 +1,23 @@
+
+
+deploy production:
+  stage: deploy production
+  image:
+    name: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+    entrypoint:
+      - '/usr/bin/env'
+  dependencies:
+    - build
+  id_tokens:
+    ID_TOKEN:
+      aud: our-identity-provider
+  script:
+    - *assume_role
+    - aws s3 sync build/ s3://prod-$S3_BUCKET_NAME --delete
+    - CLOUDFRONT_DOMAIN=$(aws cloudfront list-distributions --query "DistributionList.Items[?Origins.Items[0].DomainName=='prod-$S3_BUCKET_NAME.s3.amazonaws.com'].DomainName" --output text)
+  environment:
+    name: production
+    url: $CLOUDFRONT_DOMAIN
+  only:
+    - main
+  when: manual
