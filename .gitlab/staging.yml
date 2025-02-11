@@ -1,0 +1,55 @@
+include:
+  - '.gitlab/common.yml'
+
+build:
+  stage: build
+  image: node:latest
+  script:
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - build/
+  cache:
+    paths:
+      - node_modules/
+      - build/
+  only:
+    - develop
+    - merge_requests
+
+test:
+  stage: test
+  image: node:alpine
+  before_script:
+    - npm install
+  script:
+    - npm run test
+  artifacts:
+    untracked: true
+  only:
+    - develop
+    - merge_requests
+
+deploy staging:
+  stage: deploy
+  needs: [test, build]
+  image:
+    name: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+    entrypoint:
+      - '/usr/bin/env'
+  dependencies:
+    - build
+  id_tokens:
+    ID_TOKEN:
+      aud: wendy-identity-provider
+  extends: .aws_auth
+  script:
+    - aws s3 sync build/ s3://$S3_BUCKET_NAME --delete
+    - CLOUDFRONT_DOMAIN=$(aws cloudfront list-distributions --query "DistributionList.Items[?Origins.Items[0].DomainName=='$S3_BUCKET_NAME.s3.amazonaws.com'].DomainName" --output text)
+  environment:
+    name: staging
+    url: $CLOUDFRONT_DOMAIN
+  only:
+    - develop
+    - merge_requests
